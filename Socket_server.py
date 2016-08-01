@@ -10,15 +10,16 @@ count = 0
 lock = threading.Lock()
 
 
+def auto_add():
+    global count, lock
+    with lock:
+        count += 1
+
+
 def weather_report(city_name, semaphore):
     while True:
         semaphore.acquire()
-        global count, lock
-        # lock.acquire()
-        # count += 1
-        # lock.release()
-        with lock:
-            count += 1
+        auto_add()
         url = "http://apis.baidu.com/heweather/weather/free?city=%s" % city_name
         header_info = {"apikey": "1de13fd399be6afae1b738e6887589c8"}
         try:
